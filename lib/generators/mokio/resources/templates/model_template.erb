@@ -1,0 +1,30 @@
+# app/models/<%= file_name %>.rb
+class Mokio::<%= class_name %> < ApplicationRecord
+  #include Mokio::Concerns::Common::SeoTags
+  #include Mokio::Concerns::Common::Services::Sitemap::Model
+  #include Mokio::Concerns::Common::History::Model
+  include Mokio::Concerns::Models::Common
+
+  <% if @columns_list.include?('slug')%>include Mokio::Sluglize<% end %>
+  <% if @columns_list.include?('main_pic') %>mount_uploader :main_pic, Mokio::MainPicUploader<% end %>
+
+  def self.columns_for_table
+    %w(<%= @filtered_columns.map { |column| column }.join(" ")%>)
+  end
+
+  def self.has_gmap_enabled?
+    false
+  end
+
+  def editable
+    true
+  end
+
+  def deletable
+    true
+  end
+
+  def name
+    ""
+  end
+end

@@ -1,0 +1,51 @@
+<%= @locale_name %>:
+  <%= @mname %>_common: &<%= @mname %>_common
+    active: Włączony
+    display_from: Wyświetlany od
+    display_to: Wyświetlany do
+    updated_at: Ostatnio edytowany
+    created_at: Utworzony
+    author_name: "Utworzone przez"
+    editor_name: "Edytowane przez"
+    actions: Akcje
+    main_pic: miniaturka
+    no_init_image: "Nie wybrano miniaturki"
+    lang_id: Język
+    update_active_true: "<%= @mname %> <strong>'%{title}'</strong> jest teraz aktywny."
+    update_active_false: "<%= @mname %> <strong>'%{title}'</strong> jest teraz nieaktywny."
+    <% @parsed_column_names.each do |n| %>
+    <%= n %>: <%= n %><%- unless n == @parsed_column_names.last -%> <% end -%>
+    <% end %>
+  mokio/<%= @mname %>: <%= @mname %>
+  backend:
+    sidebars:
+      <%= @mname %>: <%= @mname %>
+    breadcrumbs:
+      <%= controller_name %>: <%= @mname %>
+      <%= controller_name %>_edit: Edit <%= @mname %>
+      <%= controller_name %>_new: New <%= @mname %>
+  <%= controller_name %>:
+    <<: *<%= @mname %>_common
+    index_title: <%= @mname %>
+    index_add_new: Dodaj nowy <%= @mname %>
+    new_title: "Nowy <%= @mname %>"
+    edit_title: "Edytuj <%= @mname %>"
+    created: "<strong>'%{title}'</strong> został utworzony."
+    updated: "<strong>'%{title}'</strong> został poprawnie edytowany."
+    deleted: "<strong>'%{title}'</strong> został usunięty."
+# ============================================ Activerecord ============================================================= #
+  activerecord:
+    errors:
+      models:
+        mokio/<%= @mname %>:
+          attributes:
+            <% @parsed_column_names.each do |n| %>
+            <%= n %>:
+              invalid: invalid_error
+              taken: taken_error
+              blank: blank_error
+            <% end %>
+    attributes:
+      mokio/<%= @mname %>:
+        <<: *<%= @mname %>_common
+

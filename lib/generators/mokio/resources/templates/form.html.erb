@@ -1,0 +1,27 @@
+<% if @column_names_list.include?('main_pic') -%>
+= render :partial => "mokio/common/main_pic", locals: {f:f}
+<% end -%>
+<% if @column_names_list.include?('lang_id') -%>
+= render_backend_input_lang_id(f)
+<% end -%>
+<% if @column_names_list.include?('active') -%>
+= render_backend_input_active(f)
+<% end -%>
+<% @column_names_list.each do |n| -%>
+<% if !['lang_id', 'active','main_pic'].include?(n)-%>
+<% if n == 'slug'-%>
+= f.input :slug, disabled: !obj.display_editable_field?('slug'), input_html: {id: 'slug', onkeyup: 'slugHooks()', onfocusout: 'removeTracingDashes()'}
+<% else -%>
+= f.input :<%= n-%>
+<% end -%>
+<% end -%>
+<% end -%>
+
+<% if @column_names_list.include?('slug') -%>
+= javascript_include_tag 'backend/form_helpers/slug_generator'
+- prefix = obj.respond_to?(:slug_prefix_in_form) ? obj.slug_prefix_in_form : ''
+javascript:
+  $(document).ready(function(){
+  slugPrefix("#{prefix}");
+});
+<% end -%>
